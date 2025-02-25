@@ -1,6 +1,5 @@
 from http.client import responses
 
-from Core.Clients.Contracts import GET_BOOKING_ID
 from Core.Clients.endpoints import Endpoints
 from Core.Settings.config import Users, Timeouts
 import requests
@@ -43,7 +42,7 @@ class APIClient:
 
     def post(self, endpoint, data=None, status_code=200):
         url = self.get_base_url + endpoint
-        response = requests.post(url, headers=self.headers, json=data)
+        response = requests.post(url, headers=self.session.headers, json=data)
         if status_code:
             assert response.status_code == status_code
         return response.json()
@@ -70,13 +69,10 @@ class APIClient:
             self.session.headers.update({"Authorization": f'Bearer {token}'})
 
 
-    def get_booking_by_id(self, ID='1'):
-        with allure.step('poisk po ID'):
-            url = f'{self.base_url}{Endpoints.BOOKING_ENDPOINT}/{ID}'
-            payload = GET_BOOKING_ID
-            response = self.session.get(url, json=payload)
+    def get_booking_by_id(self, id='1'):
+        with allure.step('Search by ID'):
+            url = f'{self.base_url}{Endpoints.BOOKING_ENDPOINT}/{id}'
+            response = self.session.get(url, headers=self.session.headers)
             response.raise_for_status()
         with allure.step('Assert status code'):
             assert response.status_code == 200, f'Expected status 200 but got {response.status_code}'
-
-

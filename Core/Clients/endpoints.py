@@ -1,6 +1,6 @@
 from enum import Enum
 
 class Endpoints(Enum):
-    PING_ENDPOINT = '/ing'
+    PING_ENDPOINT = '/ping'
     AUTH_ENDPOINT = '/auth'
     BOOKING_ENDPOINT = '/booking'
