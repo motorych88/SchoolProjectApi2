@@ -6,7 +6,7 @@ from faker import Faker
 
 @pytest.fixture(scope='session')
 def api_client():
-    client = APIClient
+    client = APIClient()
     client.auth()
     return client
 
@@ -25,14 +25,14 @@ def booking_dates():
 @pytest.fixture()
 def generate_random_booking_data():
     faker = Faker
-    firsname = faker.first_name()
+    firstname = faker.first_name()
     lastname = faker.last_name()
     totalprice = faker.random_number()
     depositpaid = faker.boolean()
     additionalneeds = faker.sentence()
 
     data = {
-        "firstname": firsname,
+        "firstname": firstname,
         "lastname": lastname,
         "totalprice": totalprice,
         "depositpaid": depositpaid,
